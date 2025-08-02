@@ -50,7 +50,8 @@ export default async function ContactPageRoute() {
         </div>
       </div>
       
-
+      {/* BottomNav */}
+      <BottomNav />
     </div>
   );
 }

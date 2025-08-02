@@ -32,7 +32,8 @@ export default async function InfoPageRoute() {
         </div>
       </div>
       
-
+      {/* BottomNav */}
+      <BottomNav />
     </div>
   );
 }
