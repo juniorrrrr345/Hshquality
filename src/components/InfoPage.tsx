@@ -1,10 +1,14 @@
 'use client';
 
+import { usePageContent } from '@/hooks/usePageContent';
+
 interface InfoPageProps {
-  content: string;
+  content?: string;
 }
 
-export default function InfoPage({ content }: InfoPageProps) {
+export default function InfoPage({ content: initialContent }: InfoPageProps) {
+  const { content, isLoading, error } = usePageContent('info', initialContent);
+
   const parseMarkdown = (text: string) => {
     return text
       .replace(/^# (.+)$/gm, '<h1 class="text-2xl sm:text-3xl font-bold text-white mb-6 text-center">$1</h1>')
@@ -29,9 +33,17 @@ export default function InfoPage({ content }: InfoPageProps) {
         <div className="w-20 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 mx-auto"></div>
       </div>
 
-      {/* Affichage instantané du contenu */}
-      {content ? (
-        <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/10">
+      {/* Gestion des états de chargement */}
+      {isLoading ? (
+        <div className="flex justify-center items-center py-12">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>
+        </div>
+      ) : error ? (
+        <div className="text-center text-red-500 py-12">
+          <p>{error}</p>
+        </div>
+      ) : content ? (
+        <div className="bg-black/40 backdrop-blur-sm rounded-2xl p-6 sm:p-8 border border-white/10 animate-fadeIn">
           <div 
             className="prose prose-lg max-w-none text-gray-300 leading-relaxed"
             dangerouslySetInnerHTML={{ __html: parseMarkdown(content) }}

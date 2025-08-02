@@ -6,85 +6,102 @@ export async function GET(
   { params }: { params: { slug: string } }
 ) {
   try {
-    console.log('🔍 API Pages GET - Slug:', params.slug);
-    
     const { db } = await connectToDatabase();
-    const pagesCollection = db.collection('pages');
+    const page = await db.collection('pages').findOne({ slug: params.slug });
     
-    const page = await pagesCollection.findOne({ slug: params.slug });
-    console.log('📄 Page trouvée:', page ? 'OUI' : 'NON');
-    
-    // Si la page n'existe pas, créer une page vide
     if (!page) {
-      const defaultPage = {
+      // Créer la page si elle n'existe pas
+      const defaultContent = {
+        info: '# À propos de nous\n\nBienvenue sur notre boutique!',
+        contact: '# Contactez-nous\n\nNous sommes là pour vous aider.',
+        social: '# Réseaux sociaux\n\nSuivez-nous sur nos réseaux!'
+      };
+      
+      const newPage = {
         slug: params.slug,
-        title: params.slug === 'info' ? 'À propos' : 'Contact',
-        content: '',
-        createdAt: new Date(),
+        title: params.slug.charAt(0).toUpperCase() + params.slug.slice(1),
+        content: defaultContent[params.slug as keyof typeof defaultContent] || '',
         updatedAt: new Date()
       };
       
-      await pagesCollection.insertOne(defaultPage);
-      console.log('✅ Page vide créée:', params.slug);
+      await db.collection('pages').insertOne(newPage);
       
-      return NextResponse.json({
-        content: defaultPage.content,
-        title: defaultPage.title
+      return NextResponse.json(newPage, {
+        headers: {
+          'Cache-Control': 'no-store',
+          'Content-Type': 'application/json',
+        }
       });
     }
     
     return NextResponse.json({
-      content: page.content || '',
-      title: page.title || params.slug
+      ...page,
+      updatedAt: page.updatedAt || new Date()
+    }, {
+      headers: {
+        'Cache-Control': 'no-store',
+        'Content-Type': 'application/json',
+      }
     });
   } catch (error) {
-    console.error('❌ Erreur API Pages GET:', error);
-    return NextResponse.json({ 
-      content: '', 
-      title: params.slug,
-      error: error instanceof Error ? error.message : 'Erreur inconnue'
-    });
+    console.error('Erreur GET page:', error);
+    return NextResponse.json(
+      { error: 'Erreur serveur' },
+      { status: 500 }
+    );
   }
 }
 
-export async function POST(
+export async function PUT(
   request: NextRequest,
   { params }: { params: { slug: string } }
 ) {
   try {
-    console.log('📝 API Pages POST - Slug:', params.slug);
+    const body = await request.json();
+    const { title, content } = body;
     
-    const { content, title } = await request.json();
     const { db } = await connectToDatabase();
-    const pagesCollection = db.collection('pages');
     
-    const result = await pagesCollection.replaceOne(
+    const updateData = {
+      title,
+      content,
+      updatedAt: new Date()
+    };
+    
+    const result = await db.collection('pages').updateOne(
       { slug: params.slug },
       { 
-        slug: params.slug, 
-        title: title || params.slug, 
-        content: content || '', 
-        updatedAt: new Date() 
+        $set: updateData,
+        $setOnInsert: { slug: params.slug }
       },
       { upsert: true }
     );
     
-    console.log('✅ Page sauvegardée:', {
-      slug: params.slug,
-      modified: result.modifiedCount,
-      upserted: result.upsertedCount
-    });
+    // Invalider le cache après la mise à jour
+    try {
+      await fetch(`${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/cache/invalidate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ type: 'pages', slug: params.slug })
+      });
+    } catch (cacheError) {
+      console.error('Erreur invalidation cache:', cacheError);
+    }
     
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error('❌ Erreur API Pages POST:', error);
     return NextResponse.json({ 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Erreur inconnue' 
-    }, { status: 500 });
+      success: true, 
+      ...updateData 
+    }, {
+      headers: {
+        'Cache-Control': 'no-store',
+        'Content-Type': 'application/json',
+      }
+    });
+  } catch (error) {
+    console.error('Erreur PUT page:', error);
+    return NextResponse.json(
+      { error: 'Erreur serveur' },
+      { status: 500 }
+    );
   }
-}
-
-export async function PUT(req: NextRequest, context: any) {
-  return POST(req, context);
 }

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import CachePreloader from '@/components/CachePreloader'
 import GlobalBackgroundProvider from '@/components/GlobalBackgroundProvider'
+import PagePreloader from '@/components/PagePreloader'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -105,6 +106,7 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`} suppressHydrationWarning style={{ backgroundColor: 'black' }}>
         <GlobalBackgroundProvider />
         <CachePreloader />
+        <PagePreloader />
         {children}
       </body>
     </html>
