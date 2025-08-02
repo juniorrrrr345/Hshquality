@@ -227,17 +227,22 @@ export default function HomePage() {
               {/* Logo animé moderne */}
               <div className="mb-8">
                 <div className="relative w-40 h-40 mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full blur-2xl opacity-70 animate-pulse"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-full blur-xl opacity-50 animate-ping"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-2xl opacity-70 animate-pulse"></div>
+                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full blur-xl opacity-50 animate-ping"></div>
                   <div className="relative z-10 w-full h-full flex items-center justify-center">
-                    <span className="text-8xl animate-bounce filter drop-shadow-2xl">🔥</span>
+                    <div className="grid grid-cols-2 gap-2 p-8">
+                      <div className="w-8 h-8 bg-blue-500 rounded-full animate-pulse"></div>
+                      <div className="w-8 h-8 bg-purple-500 rounded-full animate-pulse delay-75"></div>
+                      <div className="w-8 h-8 bg-purple-500 rounded-full animate-pulse delay-150"></div>
+                      <div className="w-8 h-8 bg-pink-500 rounded-full animate-pulse delay-200"></div>
+                    </div>
                   </div>
                 </div>
               </div>
               
               {/* Titre avec effet néon et ombre */}
-              <h1 className="text-5xl sm:text-7xl font-black mb-4 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 text-transparent bg-clip-text animate-pulse drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
-                JBEL INDUSTRY
+              <h1 className="text-5xl sm:text-7xl font-black mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-pulse drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
+                HSHQUALITY
               </h1>
               
               <p className="text-2xl text-white mb-8 font-semibold drop-shadow-lg">
@@ -247,7 +252,7 @@ export default function HomePage() {
               {/* Nouvelle barre de chargement 3D */}
               <div className="w-80 max-w-full mx-auto mb-8">
                 <div className="h-4 bg-white/20 rounded-full overflow-hidden border border-white/40 shadow-inner">
-                  <div className="h-full bg-gradient-to-r from-yellow-500 via-orange-500 to-red-600 rounded-full shadow-lg animate-loading-bar"></div>
+                  <div className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-600 rounded-full shadow-lg animate-loading-bar"></div>
                 </div>
                 <div className="mt-2 text-sm text-white font-medium drop-shadow-md">Chargement...</div>
               </div>
