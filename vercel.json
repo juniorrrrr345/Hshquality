@@ -3,5 +3,13 @@
   "outputDirectory": ".next",
   "framework": "nextjs",
   "installCommand": "npm install",
-  "devCommand": "npm run dev"
+  "devCommand": "npm run dev",
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "cursor/*": false,
+      "cursor/**": false
+    }
+  },
+  "ignoreCommand": "git branch --show-current | grep -E '^cursor/' && exit 0 || exit 1"
 }

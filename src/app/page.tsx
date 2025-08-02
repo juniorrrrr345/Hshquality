@@ -223,7 +223,7 @@ export default function HomePage() {
         {/* Image de fond */}
         <div 
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${settings?.backgroundImage || ''})` }}
+          style={{ backgroundImage: shopSettings?.backgroundImage ? `url(${shopSettings.backgroundImage})` : '' }}
         />
         
         {/* Overlay noir */}
