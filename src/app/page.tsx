@@ -219,55 +219,37 @@ export default function HomePage() {
   // Écran de chargement avec fond de thème de la boutique
   if (loading) {
     return (
-      <div className="main-container">
-        <div className="global-overlay"></div>
-        <div className="content-layer">
-          <div className="min-h-screen flex items-center justify-center p-4">
-            <div className="text-center bg-black/60 backdrop-blur-md rounded-3xl p-8 sm:p-12 max-w-lg mx-auto border border-white/20">
-              {/* Logo animé moderne */}
-              <div className="mb-8">
-                <div className="relative w-40 h-40 mx-auto">
-                  <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full blur-2xl opacity-70 animate-pulse"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-500 rounded-full blur-xl opacity-50 animate-ping"></div>
-                  <div className="relative z-10 w-full h-full flex items-center justify-center">
-                    <div className="grid grid-cols-2 gap-2 p-8">
-                      <div className="w-8 h-8 bg-blue-500 rounded-full animate-pulse"></div>
-                      <div className="w-8 h-8 bg-purple-500 rounded-full animate-pulse delay-75"></div>
-                      <div className="w-8 h-8 bg-purple-500 rounded-full animate-pulse delay-150"></div>
-                      <div className="w-8 h-8 bg-pink-500 rounded-full animate-pulse delay-200"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Titre avec effet néon et ombre */}
-              <h1 className="text-5xl sm:text-7xl font-black mb-4 bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text animate-pulse drop-shadow-[0_0_30px_rgba(255,255,255,0.5)]">
-                HSHQUALITY
-              </h1>
-              
-              <p className="text-2xl text-white mb-8 font-semibold drop-shadow-lg">
-                Préparation en cours...
+      <div className="min-h-screen relative">
+        {/* Image de fond */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${settings?.backgroundImage || ''})` }}
+        />
+        
+        {/* Overlay noir */}
+        <div className="absolute inset-0 bg-black/80"></div>
+        
+        {/* Contenu */}
+        <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
+          <div className="text-center">
+            {/* Cercle tournant simple */}
+            <div className="w-20 h-20 mx-auto mb-8 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+            
+            {/* Titre principal */}
+            <h1 className="text-6xl sm:text-8xl font-black text-white mb-4 tracking-tight">
+              HSHQUALITY
+            </h1>
+            
+            {/* Sous-titre */}
+            <p className="text-xl text-white/60 font-light tracking-wider">
+              CHARGEMENT
+            </p>
+            
+            {/* Copyright */}
+            <div className="absolute bottom-8 left-0 right-0 text-center">
+              <p className="text-white/40 text-sm">
+                © 2025 JUNIOR × HSHQUALITY
               </p>
-              
-              {/* Nouvelle barre de chargement 3D */}
-              <div className="w-80 max-w-full mx-auto mb-8">
-                <div className="h-4 bg-white/20 rounded-full overflow-hidden border border-white/40 shadow-inner">
-                  <div className="h-full bg-gradient-to-r from-blue-500 via-purple-500 to-pink-600 rounded-full shadow-lg animate-loading-bar"></div>
-                </div>
-                <div className="mt-2 text-sm text-white font-medium drop-shadow-md">Chargement...</div>
-              </div>
-              
-              {/* Animation de particules */}
-              <div className="flex justify-center gap-3 mb-8">
-                <div className="w-3 h-3 bg-yellow-400 rounded-full animate-bounce shadow-lg shadow-yellow-400/50" style={{ animationDelay: '0ms' }}></div>
-                <div className="w-3 h-3 bg-orange-500 rounded-full animate-bounce shadow-lg shadow-orange-500/50" style={{ animationDelay: '200ms' }}></div>
-                <div className="w-3 h-3 bg-red-500 rounded-full animate-bounce shadow-lg shadow-red-500/50" style={{ animationDelay: '400ms' }}></div>
-              </div>
-              
-              {/* Footer */}
-              <div className="text-white text-sm font-medium drop-shadow-md">
-                <p>© 2025 JUNIOR X JBEL</p>
-              </div>
             </div>
           </div>
         </div>
