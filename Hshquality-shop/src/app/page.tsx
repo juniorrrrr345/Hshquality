@@ -218,19 +218,51 @@ export default function HomePage() {
 
   // Écran de chargement avec fond de thème de la boutique
   if (loading) {
+    // Récupérer l'image depuis localStorage de manière sécurisée
+    const [backgroundImage, setBackgroundImage] = useState<string>('');
+    
+    useEffect(() => {
+      try {
+        const savedSettings = localStorage.getItem('shopSettings');
+        if (savedSettings) {
+          const settings = JSON.parse(savedSettings);
+          if (settings.backgroundImage) {
+            setBackgroundImage(settings.backgroundImage);
+          }
+        }
+      } catch (e) {
+        console.error('Erreur chargement image:', e);
+      }
+    }, []);
+
     return (
       <div className="min-h-screen relative bg-black">
-        {/* Fond noir avec pattern subtil */}
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black"></div>
+        {/* Image de fond si disponible */}
+        {backgroundImage && (
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ backgroundImage: `url(${backgroundImage})` }}
+          />
+        )}
         
-        {/* Overlay avec effet */}
-        <div className="absolute inset-0 bg-black/60"></div>
+        {/* Overlay noir */}
+        <div className="absolute inset-0 bg-black/80"></div>
         
         {/* Contenu */}
         <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
           <div className="text-center">
-            {/* Cercle tournant simple */}
-            <div className="w-20 h-20 mx-auto mb-8 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+            {/* Cercle tournant avec image */}
+            <div className="relative w-32 h-32 mx-auto mb-8">
+              {/* Image dans le cercle */}
+              {backgroundImage && (
+                <div 
+                  className="absolute inset-0 rounded-full bg-cover bg-center"
+                  style={{ backgroundImage: `url(${backgroundImage})` }}
+                />
+              )}
+              {/* Bordure tournante */}
+              <div className="absolute inset-0 border-4 border-white/30 border-t-white rounded-full animate-spin"></div>
+            </div>
             
             {/* Titre principal */}
             <h1 className="text-6xl sm:text-8xl font-black text-white mb-4 tracking-tight">
