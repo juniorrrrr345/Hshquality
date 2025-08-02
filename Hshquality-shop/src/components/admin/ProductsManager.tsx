@@ -17,7 +17,7 @@ interface Product {
   isActive: boolean;
 }
 
-const defaultPriceKeys = ['3g', '5g', '10g', '25g', '50g', '100g', '200g', '500g'];
+
 
 export default function ProductsManager() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -576,7 +576,7 @@ export default function ProductsManager() {
   };
 
   const addCustomPrice = () => {
-    const customKey = prompt('Entrez la quantité (ex: 3g, 5g, 10g, 25g, 50g, 100g, 1kg, etc.):');
+    const customKey = prompt('Entrez la quantité (ex: 1g, 2.5g, 10g, 50g, 100g, 250g, 500g, 1kg, etc.):');
     if (customKey && customKey.trim()) {
       addNewPrice(customKey.trim());
     }
@@ -1122,23 +1122,7 @@ export default function ProductsManager() {
                     </button>
                   </div>
                   
-                  {/* Raccourcis pour prix courants */}
-                  <div className="flex flex-wrap gap-2">
-                    {['3g', '5g', '10g', '25g', '50g', '100g', '200g', '500g', '1kg'].map(quantity => (
-                      <button
-                        key={quantity}
-                        type="button"
-                        onClick={() => {
-                          console.log(`🎯 Clic sur bouton: ${quantity}`);
-                          addNewPrice(quantity);
-                        }}
-                        className="bg-blue-600/20 border border-blue-400/30 hover:bg-blue-600/40 text-blue-300 text-xs py-1 px-2 rounded transition-all duration-200"
-                        title={`Ajouter ${quantity}`}
-                      >
-                        + {quantity}
-                      </button>
-                    ))}
-                  </div>
+
                   <button
   type="button"
   onClick={() => {
@@ -1157,8 +1141,8 @@ export default function ProductsManager() {
                   {getAllPriceEntries().length === 0 ? (
                     <div className="text-center py-8 text-gray-400">
                       <p className="mb-2">Aucun prix défini</p>
-                      <p className="text-sm">Cliquez sur "➕ Ajouter prix" pour commencer</p>
-                      <p className="text-xs mt-2">Debug refresh: {refreshCounter}</p>
+                      <p className="text-sm">Cliquez sur "➕ Ajouter prix" pour définir vos quantités et prix</p>
+                      <p className="text-xs mt-2 text-gray-500">Vous pouvez ajouter n'importe quelle quantité (ex: 1g, 2.5g, 10g, etc.)</p>
                     </div>
                   ) : (
                     getAllPriceEntries().map(([priceKey, value]) => (
@@ -1328,31 +1312,15 @@ export default function ProductsManager() {
                         </button>
                       </div>
                       
-                      {/* Raccourcis mobiles */}
-                      <div className="flex flex-wrap gap-2">
-                        {['3g', '5g', '10g', '25g', '50g', '100g', '200g', '500g', '1kg'].map(quantity => (
-                          <button
-                            key={quantity}
-                            type="button"
-                            onClick={() => {
-                              console.log(`📱 Clic mobile sur: ${quantity}`);
-                              addNewPrice(quantity);
-                            }}
-                            className="bg-blue-600/20 border border-blue-400/30 hover:bg-blue-600/40 text-blue-300 text-xs py-1 px-2 rounded transition-all duration-200"
-                            title={`Ajouter ${quantity}`}
-                          >
-                            + {quantity}
-                          </button>
-                        ))}
-                      </div>
+
                     </div>
                     
                     <div className="space-y-3 max-h-80 overflow-y-auto">
                       {getAllPriceEntries().length === 0 ? (
                         <div className="text-center py-8 text-gray-400">
                           <p className="mb-2">Aucun prix défini</p>
-                          <p className="text-sm">Cliquez sur "➕ Ajouter prix" pour commencer</p>
-                          <p className="text-xs mt-2">Debug refresh mobile: {refreshCounter}</p>
+                          <p className="text-sm">Cliquez sur "➕ Ajouter" pour définir vos quantités et prix</p>
+                          <p className="text-xs mt-2 text-gray-500">Vous pouvez ajouter n'importe quelle quantité (ex: 1g, 2.5g, 10g, etc.)</p>
                         </div>
                       ) : (
                         getAllPriceEntries().map(([priceKey, value]) => (
