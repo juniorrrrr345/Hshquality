@@ -20,34 +20,40 @@ interface SocialPageProps {
 export default function SocialPage({ initialContent, initialLinks }: SocialPageProps) {
   const { content, isLoading: contentLoading } = usePageContent('social', initialContent);
   const [socialLinks, setSocialLinks] = useState<SocialLink[]>(initialLinks || []);
-  const [linksLoading, setLinksLoading] = useState(!initialLinks);
+  const [linksLoading, setLinksLoading] = useState(false);
 
   useEffect(() => {
-    // Charger depuis le cache local d'abord
-    const cached = localStorage.getItem('socialLinks');
-    if (cached && !initialLinks) {
-      try {
-        const parsedLinks = JSON.parse(cached);
-        setSocialLinks(parsedLinks.filter((link: SocialLink) => link.isActive));
-      } catch (e) {
-        console.error('Erreur parsing cache:', e);
+    // Si on a des liens initiaux, les utiliser
+    if (initialLinks && initialLinks.length > 0) {
+      setSocialLinks(initialLinks);
+      // Mettre à jour le cache
+      localStorage.setItem('socialLinks', JSON.stringify(initialLinks));
+    } else {
+      // Sinon, charger depuis le cache ou l'API
+      const cached = localStorage.getItem('socialLinks');
+      if (cached) {
+        try {
+          const parsedLinks = JSON.parse(cached);
+          setSocialLinks(parsedLinks.filter((link: SocialLink) => link.isActive));
+        } catch (e) {
+          console.error('Erreur parsing cache:', e);
+        }
       }
-    }
-
-    // Puis charger depuis l'API
-    if (!initialLinks) {
+      // Toujours charger depuis l'API pour avoir les dernières données
       loadSocialLinks();
     }
-  }, [initialLinks]);
+  }, []);
 
   const loadSocialLinks = async () => {
     try {
+      setLinksLoading(true);
       const response = await fetch('/api/social-links', {
         headers: { 'Cache-Control': 'no-cache' }
       });
       
       if (response.ok) {
         const data = await response.json();
+        console.log('📱 Liens sociaux reçus:', data);
         const activeLinks = data.filter((link: SocialLink) => link.isActive);
         setSocialLinks(activeLinks);
         
@@ -73,7 +79,7 @@ export default function SocialPage({ initialContent, initialLinks }: SocialPageP
   const isLoading = contentLoading || linksLoading;
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <div className="container mx-auto px-4 py-8 pb-24 max-w-4xl">
       {/* Titre de la page */}
       <div className="text-center mb-8">
         <h1 className="shop-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-white mb-3">
