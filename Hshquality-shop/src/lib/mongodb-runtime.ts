@@ -19,7 +19,7 @@ if (!cached) {
 async function connectDB() {
   // Configuration MongoDB - URI depuis les variables d'environnement
   const MONGODB_URI = process.env.MONGODB_URI || 
-    'mongodb+srv://lmvrtt2:ALcWY4mLHwvtz1X2@lmvrtt.km9x4q9.mongodb.net/?retryWrites=true&w=majority&appName=LMVRTT';
+    'mongodb://localhost:27017/hshquality_shop';
 
   console.log('🔗 Connexion MongoDB avec URI:', MONGODB_URI.replace(/\/\/[^:]+:[^@]+@/, '//***:***@'));
 
@@ -57,7 +57,7 @@ async function connectDB() {
 // Fonction pour l'API (MongoDB client direct)
 export async function connectToDatabase() {
   const MONGODB_URI = process.env.MONGODB_URI || 
-    'mongodb+srv://lmvrtt2:ALcWY4mLHwvtz1X2@lmvrtt.km9x4q9.mongodb.net/?retryWrites=true&w=majority&appName=LMVRTT';
+    'mongodb://localhost:27017/hshquality_shop';
 
   const client = new MongoClient(MONGODB_URI);
   await client.connect();
