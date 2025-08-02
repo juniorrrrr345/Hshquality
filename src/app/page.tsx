@@ -219,15 +219,12 @@ export default function HomePage() {
   // Écran de chargement avec fond de thème de la boutique
   if (loading) {
     return (
-      <div className="min-h-screen relative">
-        {/* Image de fond */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: shopSettings?.backgroundImage ? `url(${shopSettings.backgroundImage})` : '' }}
-        />
+      <div className="min-h-screen relative bg-black">
+        {/* Fond noir avec pattern subtil */}
+        <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black"></div>
         
-        {/* Overlay noir */}
-        <div className="absolute inset-0 bg-black/80"></div>
+        {/* Overlay avec effet */}
+        <div className="absolute inset-0 bg-black/60"></div>
         
         {/* Contenu */}
         <div className="relative z-10 min-h-screen flex items-center justify-center p-4">
