@@ -82,7 +82,7 @@ export default function PagesManager() {
       const page = pageContent[activeTab];
       
       const response = await fetch(`/api/pages/${activeTab}`, {
-        method: 'POST',
+        method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
           'Cache-Control': 'no-cache'
@@ -95,12 +95,20 @@ export default function PagesManager() {
       
       const result = await response.json();
       
-      if (result.success) {
+      if (result.success || response.ok) {
         setSaveStatus('✅ Sauvegardé avec succès !');
         
-        // Invalider le cache pour forcer le rechargement
+        // Mettre à jour le cache côté client immédiatement
+        const { updatePageCache } = await import('@/hooks/usePageContent');
+        updatePageCache(activeTab, page.content, page.title);
+        
+        // Invalider le cache serveur
         try {
-          await fetch('/api/cache/invalidate', { method: 'POST' });
+          await fetch('/api/cache/invalidate', { 
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ type: 'pages', slug: activeTab })
+          });
         } catch (e) {
           console.log('Cache invalidation skipped');
         }
