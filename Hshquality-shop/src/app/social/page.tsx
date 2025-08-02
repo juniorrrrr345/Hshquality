@@ -11,6 +11,8 @@ async function getSocialContent() {
       db.collection('socialLinks').find({ isActive: true }).toArray()
     ]);
     
+    console.log('🔍 Social Links trouvés:', links?.length || 0, 'liens');
+    
     return {
       content: page?.content || '',
       links: links || []
