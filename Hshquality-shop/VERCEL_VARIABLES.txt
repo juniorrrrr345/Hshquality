@@ -1,0 +1,27 @@
+# Variables d'environnement pour Vercel
+# Copiez ces variables dans les paramètres de votre projet Vercel
+
+MONGODB_URI=mongodb+srv://hshquality1:GiNw1wNagCQ5PGya@hshquality.thwctpo.mongodb.net/?retryWrites=true&w=majority&appName=hshquality
+
+DATABASE_URL=mongodb+srv://hshquality1:GiNw1wNagCQ5PGya@hshquality.thwctpo.mongodb.net/?retryWrites=true&w=majority&appName=hshquality
+
+CLOUDINARY_CLOUD_NAME=dxgocjrlf
+
+CLOUDINARY_API_KEY=233235798679792
+
+CLOUDINARY_API_SECRET=6XfQiI6gaIbbLubydxll0sw93Cw
+
+CLOUDINARY_URL=cloudinary://233235798679792:6XfQiI6gaIbbLubydxll0sw93Cw@dxgocjrlf
+
+NEXTAUTH_URL=https://votre-domaine.vercel.app
+
+NEXTAUTH_SECRET=changez-cette-cle-secrete-12345
+
+ADMIN_USERNAME=admin
+
+ADMIN_PASSWORD=admin123
+
+# IMPORTANT : 
+# 1. Changez NEXTAUTH_URL avec votre vrai domaine Vercel
+# 2. Générez une vraie clé secrète pour NEXTAUTH_SECRET (32+ caractères)
+# 3. Changez ADMIN_PASSWORD pour la sécurité
