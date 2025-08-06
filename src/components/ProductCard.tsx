@@ -5,6 +5,7 @@ interface Product {
   category: string;
   image: string;
   video?: string;
+  description?: string;
   prices: {
     "5g": number;
     "10g": number;

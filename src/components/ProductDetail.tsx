@@ -112,6 +112,18 @@ export default function ProductDetail({ product, onClose }: ProductDetailProps) 
             {product.farm}
           </p>
           
+          {/* Description du produit */}
+          {product.description && (
+            <div className="mt-4 p-4 bg-gray-900/50 border border-white/10 rounded-lg">
+              <h3 className="text-white font-semibold mb-2 text-responsive-sm flex items-center">
+                <span className="mr-2">📝</span>
+                Description
+              </h3>
+              <p className="text-gray-300 text-responsive-xs sm:text-responsive-sm leading-relaxed whitespace-pre-wrap">
+                {product.description}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Liste des prix - responsive */}
