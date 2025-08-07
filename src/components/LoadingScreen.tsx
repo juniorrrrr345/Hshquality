@@ -50,7 +50,7 @@ export default function LoadingScreen() {
           
           {/* Titre principal */}
           <h1 className="text-6xl sm:text-8xl font-black text-white mb-4 tracking-tight">
-            HSHQUALITY
+            HQUALITY
           </h1>
           
           {/* Sous-titre */}
@@ -61,7 +61,7 @@ export default function LoadingScreen() {
           {/* Copyright */}
           <div className="absolute bottom-8 left-0 right-0 text-center">
             <p className="text-white/40 text-sm">
-              © 2025 JUNIOR × HSHQUALITY
+              © 2025 JUNIOR × HQUALITY
             </p>
           </div>
         </div>
