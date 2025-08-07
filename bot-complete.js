@@ -1005,8 +1005,9 @@ const PORT = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     res.json({
-        status: 'Bot Telegram actif',
+        status: 'Bot Telegram LANATIONDULAIT actif',
         bot: '@jsjshsheejdbot',
+        boutique: 'https://lanationdulait.vercel.app',
         uptime: process.uptime(),
         timestamp: new Date().toISOString()
     });
