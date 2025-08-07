@@ -4,9 +4,9 @@
   "description": "Bot Telegram avec MongoDB pour LANATION",
   "main": "bot-complete.js",
   "scripts": {
-    "start": "node bot-complete.js",
+    "start": "node bot.js",
     "webhook": "node bot-webhook.js",
-    "dev": "nodemon bot-complete.js",
+    "dev": "nodemon bot.js",
     "test": "node test-local.js"
   },
   "dependencies": {
