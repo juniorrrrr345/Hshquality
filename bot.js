@@ -602,9 +602,9 @@ bot.on('callback_query', async (callbackQuery) => {
                 await bot.sendDocument(chatId, Buffer.from(fileContent, 'utf-8'), {
                     filename: `users_export_${new Date().toISOString().split('T')[0]}.txt`,
                     caption: `📥 **Export complet des utilisateurs**\n\n` +
-                             `📊 Total: ${totalUsers} utilisateurs\n` +
-                             `👤 Réguliers: ${regularUsers}\n` +
-                             `👑 Admins: ${totalAdmins}`
+                             `📊 Total: ${exportTotalUsers} utilisateurs\n` +
+                             `👤 Réguliers: ${exportRegularUsers}\n` +
+                             `👑 Admins: ${exportTotalAdmins}`
                 }, {
                     parse_mode: 'Markdown'
                 });

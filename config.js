@@ -83,10 +83,12 @@ async function loadConfig() {
         console.log('📖 Chargement de la configuration...');
         let config = await Config.findOne({ botId: 'main' }).lean();
         
-        if (!config) {
-            console.log('⚠️ Aucune configuration trouvée, création de la configuration par défaut...');
+        // Forcer la mise à jour avec la config LANATIONDULAIT si nécessaire
+        if (!config || config.welcomeMessage.includes('Bienvenue {firstname} sur notre bot!')) {
+            console.log('🔄 Mise à jour vers la configuration LANATIONDULAIT...');
+            await Config.deleteOne({ botId: 'main' });
             config = await Config.create(defaultConfig);
-            console.log('✅ Configuration par défaut créée');
+            console.log('✅ Configuration LANATIONDULAIT appliquée');
             return config.toObject();
         }
         
