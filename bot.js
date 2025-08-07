@@ -276,10 +276,6 @@ bot.on('callback_query', async (callbackQuery) => {
     const userId = callbackQuery.from.id;
     const data = callbackQuery.data;
 
-    // Log de debug pour les callbacks
-    console.log(`📲 Callback reçu: ${data} de l'utilisateur ${userId}`);
-    console.log(`👥 Admins actuels: ${Array.from(admins).join(', ')}`);
-    
     // Répondre au callback pour éviter le spinner
     await bot.answerCallbackQuery(callbackQuery.id);
 
@@ -353,26 +349,13 @@ bot.on('callback_query', async (callbackQuery) => {
 
             case 'admin_edit_photo':
                 userStates[userId] = { action: 'editing_photo', messageId: messageId };
-                try {
-                    await bot.editMessageText('🖼️ Envoyez la nouvelle photo d\'accueil:', {
-                        chat_id: chatId,
-                        message_id: messageId,
-                        reply_markup: {
-                            inline_keyboard: [[
-                                { text: '❌ Annuler', callback_data: 'admin_menu' }
-                            ]]
-                        }
-                    });
-                } catch (error) {
-                    console.error('Erreur edit photo:', error);
-                    await sendNewMessage(chatId, '🖼️ Envoyez la nouvelle photo d\'accueil:', {
-                        reply_markup: {
-                            inline_keyboard: [[
-                                { text: '❌ Annuler', callback_data: 'admin_menu' }
-                            ]]
-                        }
-                    });
-                }
+                await updateMessage(chatId, messageId, '🖼️ Envoyez la nouvelle photo d\'accueil:', {
+                    reply_markup: {
+                        inline_keyboard: [[
+                            { text: '❌ Annuler', callback_data: 'admin_menu' }
+                        ]]
+                    }
+                });
                 break;
 
             case 'admin_edit_miniapp':
@@ -596,17 +579,17 @@ bot.on('callback_query', async (callbackQuery) => {
                 
                 // Créer le contenu du fichier avec des statistiques
                 const exportDate = new Date().toLocaleString('fr-FR', { timeZone: 'Europe/Paris' });
-                const exportTotalUsers = users.size;
-                const exportTotalAdmins = admins.size;
-                const exportRegularUsers = exportTotalUsers - exportTotalAdmins;
+                const totalUsers = users.size;
+                const totalAdmins = admins.size;
+                const regularUsers = totalUsers - totalAdmins;
                 
                 const fileContent = `📊 EXPORT DES UTILISATEURS DU BOT\n` +
                     `📅 Date d'export: ${exportDate}\n` +
                     `============================\n\n` +
                     `STATISTIQUES:\n` +
-                    `- Total utilisateurs: ${exportTotalUsers}\n` +
-                    `- Utilisateurs réguliers: ${exportRegularUsers}\n` +
-                    `- Administrateurs: ${exportTotalAdmins}\n` +
+                    `- Total utilisateurs: ${totalUsers}\n` +
+                    `- Utilisateurs réguliers: ${regularUsers}\n` +
+                    `- Administrateurs: ${totalAdmins}\n` +
                     `============================\n\n` +
                     `LISTE DÉTAILLÉE:\n\n` +
                     usersDetails.join('\n\n');
@@ -615,9 +598,9 @@ bot.on('callback_query', async (callbackQuery) => {
                 await bot.sendDocument(chatId, Buffer.from(fileContent, 'utf-8'), {
                     filename: `users_export_${new Date().toISOString().split('T')[0]}.txt`,
                     caption: `📥 **Export complet des utilisateurs**\n\n` +
-                             `📊 Total: ${exportTotalUsers} utilisateurs\n` +
-                             `👤 Réguliers: ${exportRegularUsers}\n` +
-                             `👑 Admins: ${exportTotalAdmins}`
+                             `📊 Total: ${totalUsers} utilisateurs\n` +
+                             `👤 Réguliers: ${regularUsers}\n` +
+                             `👑 Admins: ${totalAdmins}`
                 }, {
                     parse_mode: 'Markdown'
                 });
