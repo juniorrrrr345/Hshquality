@@ -353,13 +353,26 @@ bot.on('callback_query', async (callbackQuery) => {
 
             case 'admin_edit_photo':
                 userStates[userId] = { action: 'editing_photo', messageId: messageId };
-                await updateMessage(chatId, messageId, '🖼️ Envoyez la nouvelle photo d\'accueil:', {
-                    reply_markup: {
-                        inline_keyboard: [[
-                            { text: '❌ Annuler', callback_data: 'admin_menu' }
-                        ]]
-                    }
-                });
+                try {
+                    await bot.editMessageText('🖼️ Envoyez la nouvelle photo d\'accueil:', {
+                        chat_id: chatId,
+                        message_id: messageId,
+                        reply_markup: {
+                            inline_keyboard: [[
+                                { text: '❌ Annuler', callback_data: 'admin_menu' }
+                            ]]
+                        }
+                    });
+                } catch (error) {
+                    console.error('Erreur edit photo:', error);
+                    await sendNewMessage(chatId, '🖼️ Envoyez la nouvelle photo d\'accueil:', {
+                        reply_markup: {
+                            inline_keyboard: [[
+                                { text: '❌ Annuler', callback_data: 'admin_menu' }
+                            ]]
+                        }
+                    });
+                }
                 break;
 
             case 'admin_edit_miniapp':
