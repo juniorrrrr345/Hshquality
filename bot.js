@@ -276,6 +276,10 @@ bot.on('callback_query', async (callbackQuery) => {
     const userId = callbackQuery.from.id;
     const data = callbackQuery.data;
 
+    // Log de debug pour les callbacks
+    console.log(`📲 Callback reçu: ${data} de l'utilisateur ${userId}`);
+    console.log(`👥 Admins actuels: ${Array.from(admins).join(', ')}`);
+    
     // Répondre au callback pour éviter le spinner
     await bot.answerCallbackQuery(callbackQuery.id);
 
@@ -993,3 +997,25 @@ bot.on('polling_error', (error) => {
 console.log('🤖 Bot démarré avec succès!');
 console.log(`📱 Parlez au bot: https://t.me/${process.env.BOT_USERNAME || 'votre_bot'}`);
 console.log(`🔧 ID Admin: ${ADMIN_ID}`);
+
+// Serveur HTTP pour Render
+const express = require('express');
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.json({
+        status: 'Bot Telegram actif',
+        bot: '@jsjshsheejdbot',
+        uptime: process.uptime(),
+        timestamp: new Date().toISOString()
+    });
+});
+
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
+
+app.listen(PORT, () => {
+    console.log(`🔄 Serveur HTTP démarré sur le port ${PORT}`);
+});
